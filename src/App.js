@@ -1,5 +1,4 @@
 import React from "react";
-import Finder from "./Finder";
 import AppRouter from "./Router";
 
 function App() {

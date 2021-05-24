@@ -5,22 +5,29 @@ const Finder = () => {
   const [movie, setMovie] = useState("");
   const [result, setResult] = useState([]);
   //키값은 나중에 다른 js파일로 저장 후 따로 보관
-  const url =
-    "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=0f9a0ba4da91695352348c5fbf0b5007&movieNm=";
-  const mpvieUrl = url + movie;
 
   const getMovie = async () => {
-    const {
-      data: {
-        movieListResult: { movieList },
-      },
-    } = await axios.get(mpvieUrl);
-    setResult(movieList);
-    console.log(result);
+    const NAVER_CLIENT_ID = "B6h9ObcuFvzsYG8iv5QZ";
+    const NAVER_CLIENT_SECRET = "O1QIdiIUqY";
+    console.log(movie);
+    try {
+      const {
+        data: { items },
+      } = await axios.get("/api/v1/search/movie.json", {
+        params: { query: `${movie}`, display: 20 },
+        headers: {
+          "X-Naver-Client-Id": NAVER_CLIENT_ID,
+          "X-Naver-Client-Secret": NAVER_CLIENT_SECRET,
+        },
+      });
+
+      setResult(items);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onClick = () => {
-    console.log(movie);
     getMovie();
   };
   const onChange = (event) => {
@@ -37,6 +44,11 @@ const Finder = () => {
         onChange={onChange}
       />
       <input type="submit" onClick={onClick} value="Search" />
+      <div>
+        {result.map((items) => {
+          <li>{console.log("items", items.title)}</li>;
+        })}
+      </div>
     </>
   );
 };
