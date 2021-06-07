@@ -1,16 +1,23 @@
 import React from "react";
 import Jieun from "./Jieun";
+import { Link } from "react-router-dom";
+import Server from "./Server";
 
 const Home = () => {
-  const onClick = () => {
-    window.location.href = "/finder";
-  };
-
   return (
     <>
       <div>
-        <button onClick={onClick}>Movie and Book!</button>
+        <Link to="/movie">Movie and Book!</Link>
+
         <Jieun />
+
+        <div className="form">
+          <label>Movie Name : </label>
+          <input type="text" name="movieName" />
+          <label>Review : </label>
+          <input type="text" name="review" />
+          <button>submit</button>
+        </div>
       </div>
     </>
   );

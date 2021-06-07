@@ -12,7 +12,7 @@ const Finder = () => {
     console.log(movie);
     try {
       const {
-        data: { items },
+        data: { items }, // image 가 null 일 때 기본 이미지 디스플레이
       } = await axios.get("/api/v1/search/movie.json", {
         params: { query: `${movie}`, display: 20 },
         headers: {
@@ -22,6 +22,7 @@ const Finder = () => {
       });
 
       setResult(items);
+      console.log(items);
     } catch (error) {
       console.log(error);
     }
@@ -45,9 +46,15 @@ const Finder = () => {
       />
       <input type="submit" onClick={onClick} value="Search" />
       <div>
-        {result.map((items) => {
-          <li>{console.log("items", items.title)}</li>;
-        })}
+        {result.map((items) => (
+          <li key={items.link} className="result">
+            <img src={items.image} />
+            {items.title
+              .replace("<b>", "")
+              .replace("</b>", "")
+              .replace("&amp", "")}
+          </li>
+        ))}
       </div>
     </>
   );
