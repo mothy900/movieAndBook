@@ -4,6 +4,7 @@ import axios from "axios";
 const Finder = () => {
   const [movie, setMovie] = useState("");
   const [result, setResult] = useState([]);
+
   //키값은 나중에 다른 js파일로 저장 후 따로 보관
   const NAVER_CLIENT_ID = "B6h9ObcuFvzsYG8iv5QZ";
   const NAVER_CLIENT_SECRET = "O1QIdiIUqY";
@@ -22,7 +23,8 @@ const Finder = () => {
       });
 
       setResult(items);
-      console.log(items);
+
+      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +41,8 @@ const Finder = () => {
   };
 
   const onTitleClick = async (event) => {
-    console.log(event.target.outerText);
+    console.log(event.target.className);
+    console.log(result.indexOf(event.target.className));
 
     try {
       const {
@@ -69,13 +72,26 @@ const Finder = () => {
         onChange={onChange}
       />
       <input type="submit" onClick={onClick} value="Search" />
+      {
+        // 엔터누르면 검색하는기능도 추가하기,
+      }
+
       <div>
         {result.map((items) => (
           <li key={items.link} className={("result", `${items.isbn}`)}>
-            <div onClick={onTitleClick} className={`${items.isbn}`}>
+            <div onClick={onTitleClick} className={`${items.title}`}>
+              {console.log("items.isbn :" + items)}
+
               <img src={items.image} />
+              <div>
+                {
+                  items.title.replace(/[</b>]/g, "").replace("&amp", "") // replace() 안에 /[]/g 중 없애고 싶은 모든 무자열은 [] 안에 넣으면 된다.
+                }
+              </div>
+              <div>{items.actor}</div>
+              <div>평점 : {items.userRating}</div>
               {
-                items.title.replace(/[</b>]/g, "").replace("&amp", "") // replace() 안에 /[]/g 중 없애고 싶은 모든 무자열은 [] 안에 넣으면 된다.
+                //나중에는 items.link 타고 들어가서 줄거리 크롤링도 가능할 듯
               }
             </div>
           </li>

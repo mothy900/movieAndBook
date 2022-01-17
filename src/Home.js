@@ -1,26 +1,31 @@
 import React, { useState, useEffect } from "react";
 import Jieun from "./Jieun";
 import { Link } from "react-router-dom";
-import Server from "./Server";
+
 import Axios from "axios";
 
 const Home = () => {
   const [movieName, setMovieName] = useState("");
   const [review, setReview] = useState("");
   const [movieReviewList, setMovieReviewList] = useState([]);
+  const [currentTime, setCurrentTime] = useState("");
 
   const [newReview, setNewReview] = useState("");
   useEffect(() => {
     Axios.get("http://localhost:3001/api/get").then((respone) => {
       console.log(respone.data);
-      setMovieReviewList(respone.data);
+      if (respone.data === []) {
+        setMovieReviewList(respone.data);
+      }
     });
   }, []);
 
   const submitReview = () => {
+    setCurrentTime(Date.now());
     Axios.post("http://localhost:3001/api/insert", {
       movieName: movieName,
       movieReview: review,
+      key: currentTime,
     });
 
     setMovieReviewList([

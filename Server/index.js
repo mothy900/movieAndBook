@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const mysql = require("mysql");
 
+// CRUD  : https://www.youtube.com/watch?v=T8mqZZ0r-RA 참고
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
@@ -13,6 +14,10 @@ const db = mysql.createPool({
 app.use(cors()); //cors err 해결
 app.use(express.json()); // json 형태로 전달하기 위해
 app.use(bodyParser.urlencoded({ extendes: true }));
+
+app.get("/", (req, res) => {
+  res.send(" server is working");
+});
 
 app.get("/api/get", (req, res) => {
   const sqlInsert = "SELECT * FROM movie_reviews"; // Select every Information from our database call movie_rivews
